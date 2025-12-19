@@ -1,150 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎄 MerryMart – Christmas Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --red:#c62828;--green:#2e7d32;--gold:#fbc02d;--bg:#0b2e1a;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;font-family:Poppins,system-ui;background:linear-gradient(180deg,#0b2e1a,#14532d);
-      color:#fff;overflow-x:hidden
-    }
-    header{
-      position:sticky;top:0;z-index:10;
-      display:flex;justify-content:space-between;align-items:center;
-      padding:16px 24px;background:rgba(0,0,0,.3);backdrop-filter:blur(6px)
-    }
-    h1{font-family:"Mountains of Christmas",cursive;color:var(--gold);margin:0}
-    .cart-btn{
-      position:relative;cursor:pointer;background:var(--red);border:none;color:#fff;
-      padding:10px 16px;border-radius:24px;font-weight:600
-    }
-    .cart-count{
-      position:absolute;top:-6px;right:-6px;background:var(--gold);color:#000;
-      border-radius:50%;padding:2px 7px;font-size:12px
-    }
-    main{padding:32px;max-width:1200px;margin:auto}
-    .grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px
-    }
-    .card{
-      background:rgba(255,255,255,.08);border-radius:20px;padding:16px;
-      box-shadow:0 10px 30px rgba(0,0,0,.3);text-align:center
-    }
-    .card img{width:100%;height:160px;object-fit:cover;border-radius:16px}
-    .card h3{margin:12px 0 4px}
-    .price{color:var(--gold);font-weight:600}
-    .card button{
-      margin-top:10px;background:var(--green);border:none;color:#fff;
-      padding:10px 14px;border-radius:20px;cursor:pointer
-    }
-    /* CART PANEL */
-    .cart-panel{
-      position:fixed;top:0;right:0;height:100vh;width:75vw;max-width:420px;
-      background:#102a1f;transform:translateX(100%);
-      transition:transform .4s ease;z-index:20;padding:20px;overflow-y:auto
-    }
-    .cart-panel.open{transform:translateX(0)}
-    .cart-item{
-      display:flex;gap:12px;align-items:center;margin-bottom:14px
-    }
-    .cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover}
-    .qty{
-      display:flex;align-items:center;gap:6px
-    }
-    .qty button{
-      width:26px;height:26px;border:none;border-radius:50%;cursor:pointer
-    }
-    .total{margin-top:20px;font-weight:600}
-    .buy-btn{
-      width:100%;margin-top:16px;padding:14px;border:none;border-radius:30px;
-      background:linear-gradient(45deg,var(--red),var(--gold));font-size:16px
-    }
-    /* CONFETTI */
-    .confetti{
-      position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none
-    }
-  </style>
-</head>
-<body>
-<header>
-  <h1>🎄 MerryMart</h1>
-  <button class="cart-btn" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
-</header>
-<main>
-  <div class="grid" id="products"></div>
-</main>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Christmas Store 🎄</title>
 
-<div class="cart-panel" id="cartPanel">
-  <h2>🧺 Your Cart</h2>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --red:#d62828;
+  --green:#2a9d8f;
+  --gold:#f4d35e;
+  --bg:#fff5e6;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:var(--bg);
+}
+
+/* HEADER */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 40px;
+  background:linear-gradient(90deg,var(--red),var(--green));
+  color:white;
+}
+header h1{margin:0}
+
+/* CART ICON */
+.cart-icon{
+  cursor:pointer;
+  position:relative;
+  font-size:24px;
+}
+.cart-count{
+  position:absolute;
+  top:-8px;
+  right:-10px;
+  background:var(--gold);
+  color:black;
+  border-radius:50%;
+  padding:2px 7px;
+  font-size:12px;
+}
+
+/* PRODUCTS */
+.products{
+  padding:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:25px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  transition:.4s ease;
+}
+.card:hover{
+  transform:translateY(-8px) rotate(-1deg);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  transition:.4s ease;
+}
+.card:hover img{
+  transform:scale(1.08);
+}
+
+.price{font-weight:700;color:var(--red)}
+button{
+  background:var(--green);
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{background:var(--red)}
+
+/* CART PANEL */
+.cart-panel{
+  position:fixed;
+  top:0;
+  right:-125%;
+  width:125%;
+  height:100%;
+  background:white;
+  padding:30px;
+  transition:.6s ease;
+  overflow-y:auto;
+  z-index:10;
+}
+.cart-panel.open{right:0}
+
+.cart-item{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  margin-bottom:15px;
+}
+.cart-item img{
+  width:70px;
+  height:70px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.qty button{
+  padding:4px 10px;
+  margin:0 4px;
+}
+
+/* FOOTER CART */
+.summary{
+  border-top:2px dashed #ccc;
+  padding-top:20px;
+}
+input{
+  padding:10px;
+  width:100%;
+  margin-bottom:10px;
+}
+.buy-btn{
+  width:100%;
+  background:var(--red);
+  font-size:18px;
+}
+.buy-btn:disabled{
+  background:#aaa;
+  cursor:not-allowed;
+}
+
+/* CONFETTI */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:8px;
+  animation:fall 2s linear infinite;
+}
+@keyframes fall{
+  from{top:-10px}
+  to{top:110%}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎄 Christmas Store</h1>
+  <div class="cart-icon" onclick="toggleCart()">🛒
+    <span class="cart-count" id="cartCount">0</span>
+  </div>
+</header>
+
+<section class="products" id="products"></section>
+
+<!-- CART -->
+<div class="cart-panel" id="cart">
+  <h2>Your Cart 🎁</h2>
   <div id="cartItems"></div>
-  <div class="total" id="totalPrice">Total: ₹0</div>
-  <button class="buy-btn" onclick="buyNow()">Buy Now 🎁</button>
+
+  <div class="summary">
+    <input type="text" id="coupon" placeholder="Enter coupon code">
+    <p>Total Items: <span id="totalItems">0</span></p>
+    <p>Total Price: ₹<span id="totalPrice">0</span></p>
+    <button class="buy-btn" id="buyBtn" onclick="buy()" disabled>Buy Now</button>
+  </div>
 </div>
-<canvas class="confetti" id="confetti"></canvas>
 
 <script>
 const products=[
- {id:1,name:"Christmas Tree",price:2999,img:"https://images.unsplash.com/photo-1608889175213-7f7c3c77c7b1"},
- {id:2,name:"Star Topper",price:499,img:"https://images.unsplash.com/photo-1544971587-b842c27f8e14"},
- {id:3,name:"Ornaments Set",price:899,img:"https://images.unsplash.com/photo-1543946207-39bd91e70ca7"},
- {id:4,name:"LED Fairy Lights",price:699,img:"https://images.unsplash.com/photo-1545235617-9465d2a55698"},
- {id:5,name:"Santa Hat",price:199,img:"https://images.unsplash.com/photo-1606229365485-93a3b8ee0385"},
- {id:6,name:"Wreath",price:799,img:"https://images.unsplash.com/photo-1512389142860-9c449e58a543"},
- {id:7,name:"Gift Box Decor",price:999,img:"https://images.unsplash.com/photo-1549465220-1a8b9238cd48"},
- {id:8,name:"Snow Globe",price:1299,img:"https://images.unsplash.com/photo-1608889175175-5cfd6b3c6d1c"}
+ {id:1,name:"Christmas Tree",price:1999,img:"https://images.unsplash.com/photo-1608889175101-7dfb02b4c5b6"},
+ {id:2,name:"Santa Hat",price:299,img:"https://images.unsplash.com/photo-1544025162-d76694265947"},
+ {id:3,name:"Decorative Stars",price:499,img:"https://images.unsplash.com/photo-1544473244-f6895e69ad0b"},
+ {id:4,name:"Christmas Lights",price:799,img:"https://images.unsplash.com/photo-1545486332-9e0999c535b2"},
+ {id:5,name:"Ornaments Set",price:999,img:"https://images.unsplash.com/photo-1607344645866-009c3209b69f"},
+ {id:6,name:"Wreath",price:699,img:"https://images.unsplash.com/photo-1512386233331-f023884a92e0"},
+ {id:7,name:"Snowman Decor",price:899,img:"https://images.unsplash.com/photo-1543946603-0f4c24b1f68e"},
+ {id:8,name:"Gift Box Set",price:599,img:"https://images.unsplash.com/photo-1543589077-47d81606c1bf"}
 ];
+
 let cart={};
-const productsDiv=document.getElementById('products');
+
+const productsDiv=document.getElementById("products");
 products.forEach(p=>{
-  productsDiv.innerHTML+=`<div class="card">
-    <img src="${p.img}" alt="${p.name}">
+  productsDiv.innerHTML+=`
+  <div class="card">
+    <img src="${p.img}">
     <h3>${p.name}</h3>
-    <div class="price">₹${p.price}</div>
+    <p class="price">₹${p.price}</p>
     <button onclick="addToCart(${p.id})">Add to Cart</button>
-  </div>`
+  </div>`;
 });
-function addToCart(id){cart[id]=(cart[id]||0)+1;renderCart()}
-function toggleCart(){document.getElementById('cartPanel').classList.toggle('open')}
+
+function addToCart(id){
+  cart[id]=(cart[id]||0)+1;
+  renderCart();
+}
+
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("open");
+}
+
 function renderCart(){
-  const itemsDiv=document.getElementById('cartItems');itemsDiv.innerHTML='';
-  let total=0,count=0;
-  for(const id in cart){
+  const itemsDiv=document.getElementById("cartItems");
+  itemsDiv.innerHTML="";
+  let total=0,items=0;
+
+  Object.keys(cart).forEach(id=>{
     const p=products.find(x=>x.id==id);
-    const qty=cart[id];total+=p.price*qty;count+=qty;
-    itemsDiv.innerHTML+=`<div class="cart-item">
+    const qty=cart[id];
+    total+=p.price*qty;
+    items+=qty;
+
+    itemsDiv.innerHTML+=`
+    <div class="cart-item">
       <img src="${p.img}">
-      <div style="flex:1">${p.name}<br>₹${p.price}</div>
-      <div class="qty">
-        <button onclick="changeQty(${id},-1)">-</button>
-        ${qty}
-        <button onclick="changeQty(${id},1)">+</button>
+      <div>
+        <b>${p.name}</b><br>₹${p.price}
+        <div class="qty">
+          <button onclick="updateQty(${id},-1)">-</button>
+          ${qty}
+          <button onclick="updateQty(${id},1)">+</button>
+        </div>
       </div>
-    </div>`
+    </div>`;
+  });
+
+  if(document.getElementById("coupon").value==="ARYAN20"){
+    total*=0.8;
   }
-  document.getElementById('totalPrice').innerText=`Total: ₹${total}`;
-  document.getElementById('cartCount').innerText=count;
+
+  document.getElementById("totalItems").innerText=items;
+  document.getElementById("totalPrice").innerText=Math.round(total);
+  document.getElementById("cartCount").innerText=items;
+  document.getElementById("buyBtn").disabled=items===0;
 }
-function changeQty(id,delta){cart[id]+=delta;if(cart[id]<=0)delete cart[id];renderCart()}
-function buyNow(){
-  toggleCart();cart={};renderCart();confetti();
-  setTimeout(()=>alert('🎄 Thank you! Your items will be delivered soon.'),300)
+
+function updateQty(id,change){
+  cart[id]+=change;
+  if(cart[id]<=0) delete cart[id];
+  renderCart();
 }
-// Simple confetti
-function confetti(){
-  const c=document.getElementById('confetti'),ctx=c.getContext('2d');
-  c.width=innerWidth;c.height=innerHeight;
-  const pieces=[...Array(150)].map(()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*6+4,dy:Math.random()*3+2}));
-  let t=0;(function anim(){ctx.clearRect(0,0,c.width,c.height);
-    pieces.forEach(p=>{ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y+=p.dy;if(p.y>c.height)p.y=0});
-    if(t++<120)requestAnimationFrame(anim)
-  })()
+
+document.getElementById("coupon").addEventListener("input",renderCart);
+
+function buy(){
+  for(let i=0;i<150;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"%";
+    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+  alert("🎉 Thank you! Your items will be delivered soon 🎁");
+  cart={};
+  renderCart();
 }
 </script>
+
 </body>
 </html>
