@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Santa's Christmas Shop 🎄</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#0b6623, #b30000);
+      color: #fff;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      background: rgba(0,0,0,0.3);
+    }
+    h1 { margin: 0; }
+
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .card button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      border: none;
+      background: #b30000;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      color: #000;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .buy-btn {
+      padding: 10px 16px;
+      background: #0b6623;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🎅 Santa's Christmas Store 🎄</h1>
+  <p>Joy, gifts, and sparkle for everyone</p>
+</header>
+
+<div class="container" id="products"></div>
+
+<div class="cart">
+  <div>
+    🛒 Items: <span id="totalItems">0</span> | Total: ₹<span id="totalPrice">0</span>
+  </div>
+  <button class="buy-btn" onclick="buyNow()">Buy Now</button>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+  const products = [
+    { name: "Christmas Tree", price: 1999, img: "https://images.unsplash.com/photo-1608889175312-95b73d4c20fa" },
+    { name: "Ornaments Set", price: 799, img: "https://images.unsplash.com/photo-1543589077-47d81606c1bf" },
+    { name: "Gift Box", price: 499, img: "https://images.unsplash.com/photo-1607346256330-dee7af15f7c5" },
+    { name: "Santa Hat", price: 299, img: "https://images.unsplash.com/photo-1608889175638-932a0b5014bc" }
+  ];
+
+  let totalItems = 0;
+  let totalPrice = 0;
+
+  const container = document.getElementById('products');
+
+  products.forEach((p) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${p.img}" />
+      <h3>${p.name}</h3>
+      <p>₹${p.price}</p>
+      <button onclick="addToCart(${p.price})">Add to Cart</button>
+    `;
+    container.appendChild(card);
+  });
+
+  function addToCart(price) {
+    totalItems++;
+    totalPrice += price;
+    document.getElementById('totalItems').innerText = totalItems;
+    document.getElementById('totalPrice').innerText = totalPrice;
+  }
+
+  function buyNow() {
+    if (totalItems === 0) return alert('Your cart is empty!');
+
+    launchConfetti();
+    alert('🎉 Thank you! Your items will be delivered soon 🎁');
+    totalItems = 0;
+    totalPrice = 0;
+    document.getElementById('totalItems').innerText = 0;
+    document.getElementById('totalPrice').innerText = 0;
+  }
+
+  function launchConfetti() {
+    const confetti = document.getElementById('confetti');
+    confetti.innerHTML = '';
+    for (let i = 0; i < 100; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = ['red', 'green', 'gold'][Math.floor(Math.random()*3)];
+      piece.style.animationDuration = (2 + Math.random()*3) + 's';
+      confetti.appendChild(piece);
+    }
+    setTimeout(() => confetti.innerHTML = '', 4000);
+  }
+</script>
+
+</body>
+</html>
